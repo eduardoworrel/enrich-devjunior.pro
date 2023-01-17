@@ -1,17 +1,22 @@
 import puppeteer from 'puppeteer';
 import { Job } from "../../model/Jobs";
 import amqp from 'amqplib/callback_api'
-import fetch from 'node-fetch';
+import axios from 'axios';
 
 export default async function (channel: amqp.Channel) {
 
-    const jobs : any = await fetch('https://api.devjunior.pro/api/Vaga/GetVagas')
-        .then(res => res.json());
+    const res : any = await axios.get('https://api.devjunior.pro/api/Vaga/GetVagas');
+    for(let key in res){
 
+        console.log(key)
+        key != "data" ? console.log(res[key]) : console.log(res[key].length)
+    }
+    
+    const jobs = res.data
     const actives = jobs
         .filter((job: Job) => job.active)
 
-
+    console.log(actives.length,"quantidade de ativos")
     //access urls with puppeteer
 
     const browser = await puppeteer.launch();
@@ -20,6 +25,8 @@ export default async function (channel: amqp.Channel) {
         durable: true,
     });
     for (const active of actives) {
+        console.log(active.jobLink,"url processando")
+    
         await page.goto(active.jobLink);
         const text = await page.evaluate(() => document.body.textContent);
 

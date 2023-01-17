@@ -10,14 +10,14 @@ amqp.connect('amqp://admin:admin@localhost:5672', function(error0, connection) {
       throw error1;
     }
 
-    cron.schedule("52 * * * *", async () => {
+    // cron.schedule("10 * * * *", async () => {
       channel.assertQueue('start-scrap', {
         durable: true,
       });
       channel.sendToQueue('start-scrap', Buffer.from(
         ""
       ))
-    });
+    // });
 
     });
 
