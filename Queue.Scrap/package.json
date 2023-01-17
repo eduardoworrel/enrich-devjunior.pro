@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "devDependencies": {
     "@types/node": "^14.11.2",
     "gts": "^3.1.1",
@@ -14,6 +15,10 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
+    "@types/amqplib": "^0.10.1",
+    "@types/node-fetch": "^2.6.2",
+    "amqplib": "^0.10.3",
+    "node-fetch": "^3.3.0",
     "puppeteer": "^19.5.2"
   }
 }

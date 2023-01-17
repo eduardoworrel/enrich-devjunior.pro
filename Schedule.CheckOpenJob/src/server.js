@@ -12,12 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const puppeteer_1 = __importDefault(require("puppeteer"));
-(() => __awaiter(void 0, void 0, void 0, function* () {
-    const browser = yield puppeteer_1.default.launch({
-        headless: false
+const callback_api_1 = __importDefault(require("amqplib/callback_api"));
+const node_cron_1 = __importDefault(require("node-cron"));
+callback_api_1.default.connect('amqp://admin:admin@localhost:5672', function (error0, connection) {
+    if (error0) {
+        throw error0;
+    }
+    connection.createChannel(function (error1, channel) {
+        if (error1) {
+            throw error1;
+        }
+        node_cron_1.default.schedule("52 * * * *", () => __awaiter(this, void 0, void 0, function* () {
+            channel.assertQueue('start-scrap', {
+                durable: true,
+            });
+            channel.sendToQueue('start-scrap', Buffer.from(""));
+        }));
     });
-    const page = yield browser.newPage();
-    yield page.goto('https://devjunior.pro/');
-    // await browser.close();
-}))();
+});
