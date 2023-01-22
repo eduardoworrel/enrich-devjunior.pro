@@ -24,8 +24,11 @@ export default async function (channel: amqp.Channel) {
     for (const active of actives) {
         console.log(new Date().toISOString(),`- lendo [${active.jobLink}]`)
     
-        await page.goto(active.jobLink);
-        const text = await page.evaluate(() => document.body.textContent);
+        await page.goto(active.jobLink,{
+            waitUntil:"networkidle2"
+        });
+        
+        const text = await page.evaluate(() => document.body.innerText);
 
         channel.sendToQueue('chunk-page', Buffer.from(
             JSON.stringify({
