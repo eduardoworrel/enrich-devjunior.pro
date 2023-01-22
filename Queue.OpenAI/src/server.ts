@@ -10,7 +10,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 import amqp from 'amqplib/callback_api'
-import askForOpenedJobByText from "./Jobs/askForClosedJobByText";
+import askForOpenedJobByText from "./Jobs/askForOpenedJobByText";
 import ChunkEvent from "devjuniorpro/src/ChunkEvent";
 import askForClosedJobByText from "./Jobs/askForClosedJobByText";
 
