@@ -16,12 +16,15 @@ export default async function (channel: amqp.Channel, PageChunkEvent : PageChunk
             durable: true,
         });
     
-        const fullContent = PageChunkEvent.content;
+        let fullContent = PageChunkEvent.content;
+        while(fullContent.includes("  ")){
+            fullContent = fullContent.replace("  "," ")
+        }
         const size = fullContent.length;
 
         if(size > 2000){
             for(let i = 0; i < Math.ceil(size/2000); i++){
-                let chunk = fullContent.substring(i,i+2000)
+                let chunk = fullContent.substring(i + (i * 2000),(1 + i) * 2000)
                 post(channel,chunk,PageChunkEvent.id)
             }
         }else{
