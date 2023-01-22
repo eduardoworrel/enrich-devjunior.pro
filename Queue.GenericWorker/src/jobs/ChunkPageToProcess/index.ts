@@ -17,6 +17,9 @@ export default async function (channel: amqp.Channel, PageChunkEvent : PageChunk
         });
     
         let fullContent = PageChunkEvent.content;
+        while(fullContent.includes("\n")){
+            fullContent = fullContent.replace("\n","")
+        }
         while(fullContent.includes("  ")){
             fullContent = fullContent.replace("  "," ")
         }
