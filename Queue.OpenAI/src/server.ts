@@ -1,9 +1,11 @@
 import { Configuration, OpenAIApi } from "openai";
 
-
-
+const key = process.env.OPENAI_API_KEY
+if(key == undefined){
+  throw Error("cant find openai key")
+}
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: key,
 });
 const openai = new OpenAIApi(configuration);
 
