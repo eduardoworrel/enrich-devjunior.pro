@@ -1,7 +1,10 @@
 import amqp from 'amqplib/callback_api'
 import ColectFromOpenJobs from './jobs/ColectFromOpenJobs';
-
-amqp.connect('amqp://admin:admin@localhost:5672', function(error0, connection) {
+const host = process.env.RABBITMQ_URL;
+if(host == undefined){
+  throw Error("cant find rabbitmq host")
+}
+amqp.connect(host, function(error0, connection) {
   if (error0) {
     throw error0;
   }
@@ -12,15 +15,14 @@ amqp.connect('amqp://admin:admin@localhost:5672', function(error0, connection) {
     channel.assertQueue('start-scrap', {
       durable: true,
     });
+
     channel.consume('start-scrap',async function(msg) {
       if(msg?.content) {
-        console.log("call ColectFromOpenJobs")
         await ColectFromOpenJobs(channel)
       }
     }, {
       noAck: true
     });
-
   });
 
 });
