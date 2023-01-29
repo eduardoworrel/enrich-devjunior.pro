@@ -1,33 +1,33 @@
 version: '3'
 services:
   schedule:
-    build: ../../Schedule.Jobs/.
+    build: ../../1.Schedule.Jobs/.
     restart: always
     environment:
       - RABBITMQ_URL=amqp://admin:admin@192.168.1.3:5672
   scrap:
-    build: ../../Queue.Scrap/.
+    build: ../../2.Queue.Puppeteer/.
     restart: always
     environment:
       - RABBITMQ_URL=amqp://admin:admin@192.168.1.3:5672
   generic:
-    build: ../../Queue.GenericWorker/.
+    build: ../../3.Queue.GenericWorker/.
     restart: always
     environment:
       - RABBITMQ_URL=amqp://admin:admin@192.168.1.3:5672
   openai:
-    build: ../../Queue.OpenAI/.
+    build: ../../4.Queue.OpenAI/.
     restart: always
     environment:
       - RABBITMQ_URL=amqp://admin:admin@192.168.1.3:5672
       - OPENAI_API_KEY=
   database:
-    build: ../../Queue.Database/.
+    build: ../../5.Queue.Database/.
     restart: always
     environment:
       - RABBITMQ_URL=amqp://admin:admin@192.168.1.3:5672
   assessment:
-    build: ../../Api.ResultJobAssessment/.
+    build: ../../6.Api.ResultJobAssessment/.
     restart: always
     environment:
       - CONNECTION_STRING="Server=localhost;Database=devjunior_pro_jobassessment_result;User Id=sa;Password=#Qwerty12345;TrustServerCertificate=true"
