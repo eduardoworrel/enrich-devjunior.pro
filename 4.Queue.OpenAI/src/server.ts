@@ -1,4 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
+import dotnev from 'dotenv';
+
+dotnev.config();
 
 const key = process.env.OPENAI_API_KEY
 if(key == undefined){
@@ -31,6 +34,7 @@ amqp.connect(host, function(error0, connection) {
       durable: true,
     });
     channel.prefetch(1)
+    console.log("Aguandando trigger de GenericWorker...")
     channel.consume('Queue.OpenAI', async function(msg : amqp.Message | null) {
       if(msg?.content) {
         let result : ChunkEvent = JSON.parse(msg.content.toString())

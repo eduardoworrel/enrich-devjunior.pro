@@ -2,6 +2,9 @@ import puppeteer from 'puppeteer';
 import Job from "devjuniorpro/src/Jobs";
 import amqp from 'amqplib/callback_api'
 import axios from 'axios';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default async function (channel: amqp.Channel) {
 
@@ -14,7 +17,7 @@ export default async function (channel: amqp.Channel) {
     //access urls with puppeteer
 
     const browser = await puppeteer.launch({
-        executablePath: '/usr/bin/google-chrome',
+        executablePath: process.env.GOOGLE_EXEC_PATH,
         args: ['--no-sandbox']
     });
     const page = await browser.newPage();
@@ -25,7 +28,7 @@ export default async function (channel: amqp.Channel) {
         console.log(new Date().toISOString(),`- lendo [${active.jobLink}]`)
         // descobreSiteByUrl(active.jobLink)
         // www.url.com.br/vagaTal?x=1
-        await page.goto(active.jobLink,{
+        await page.goto(active.jobLink, {
             waitUntil:"networkidle2"
         });
         

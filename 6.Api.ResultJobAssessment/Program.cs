@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+var connectionString = builder.Configuration.GetConnectionString("CONNECTION_STRING");
 if(string.IsNullOrEmpty(connectionString)){
     throw new Exception("sem string de conexão");
 }

@@ -1,5 +1,8 @@
 import amqp from 'amqplib/callback_api'
-import ChunkPageToProcess from './jobs/CalculeAndUpdateCloseJobSugestion';
+import CalculeAndUpdateCloseJobSugestion from './jobs/CalculeAndUpdateCloseJobSugestion';
+import dotenv from 'dotenv';
+
+dotenv.config();  
 
 const host = process.env.RABBITMQ_URL;
 if(host == undefined){
@@ -17,10 +20,11 @@ amqp.connect(host, function(error0, connection) {
       durable: true,
     });
 
+    console.log("Aguardando trigger para processar respostas do chatGPT...")
     channel.consume('Queue.ProcessEvidences',async function(msg) {
       if(msg?.content) {
-        console.log("call chunkPageToProcess")
-        await ChunkPageToProcess(channel, JSON.parse(msg?.content.toString()))
+        console.log("calling CalculeAndUpdateCloseJobSugestion...")
+        await CalculeAndUpdateCloseJobSugestion(channel)
       }
     }, {
       noAck: true

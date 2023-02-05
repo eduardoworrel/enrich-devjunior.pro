@@ -19,7 +19,8 @@
     "@types/node-fetch": "^2.6.2",
     "amqplib": "^0.10.3",
     "axios": "^1.2.2",
-    "devjuniorpro": "^1.0.2",
+    "devjuniorpro": "^1.0.4",
+    "dotenv": "^16.0.3",
     "node-fetch": "^3.3.0",
     "puppeteer": "^19.5.2"
   }

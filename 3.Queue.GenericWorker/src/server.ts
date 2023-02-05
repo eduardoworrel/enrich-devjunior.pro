@@ -1,5 +1,8 @@
-import amqp from 'amqplib/callback_api'
+import amqp from 'amqplib/callback_api';
 import ChunkPageToProcess from './jobs/ChunkPageToProcess';
+import dotnev from 'dotenv';
+
+dotnev.config();
 
 const host = process.env.RABBITMQ_URL;
 if(host == undefined){
@@ -17,6 +20,7 @@ amqp.connect(host, function(error0, connection) {
       durable: true,
     });
 
+    console.log("Aguardando trigger do crawler...")
     channel.consume('Queue.GenericWorker',async function(msg) {
       if(msg?.content) {
         console.log("call chunkPageToProcess")

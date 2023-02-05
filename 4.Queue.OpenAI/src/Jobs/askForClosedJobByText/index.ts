@@ -1,6 +1,6 @@
 
 import { OpenAIApi } from "openai";
-import amqp from 'amqplib/callback_api'
+import amqp from 'amqplib/callback_api';
 import * as RuleAskForClosedJobByText from "../../Rules/RuleAskForClosedJobByText";
 
 export default async function (channel: amqp.Channel, id : number, msg : string, openai : OpenAIApi) {
