@@ -16,7 +16,11 @@ export default async function (
     max_tokens: 4,
   });
 
-  console.log(`responseGPT: ${response.data.choices[0].text}`);
+  let prepareResponse = response.data.choices[0].text?.replace(/<[^>]*>/g, '');
+  prepareResponse = prepareResponse?.replace(/\s+/g, ' ');
+  prepareResponse = prepareResponse?.trim();
+
+  console.log(`responseGPT: ${prepareResponse}`);
 
   channel.assertQueue('Queue.Database', {
     durable: true,
@@ -27,7 +31,7 @@ export default async function (
     Buffer.from(
       JSON.stringify({
         id: id,
-        content: response.data.choices[0].text,
+        content: prepareResponse,
         datetime: new Date().toISOString(),
       })
     )
