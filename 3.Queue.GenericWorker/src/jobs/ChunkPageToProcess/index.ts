@@ -24,9 +24,9 @@ export default async function (channel: amqp.Channel, ChunkEvent : ChunkEvent) {
         fullContent = fullContent.trim(); // remove leading and trailing whitespaces
 
         const size = fullContent.length;
-        if(size > 2000){
-            for(let i = 0; i < Math.ceil(size/2000); i++){
-                let chunk = fullContent.substring(i + (i * 2000),(1 + i) * 2000)
+        if(size > 4000){
+            for(let i = 0; i < Math.ceil(size/4000); i++){
+                let chunk = fullContent.substring(i + (i * 4000),(1 + i) * 4000)
                 post(channel,chunk,ChunkEvent.id, ChunkEvent.url)
             }
         }else{

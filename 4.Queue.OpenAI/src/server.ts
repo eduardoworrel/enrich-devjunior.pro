@@ -39,7 +39,7 @@ amqp.connect(host, function(error0, connection) {
         // await askForOpenedJobByText(channel, result.id, result.content , openai)
         // setTimeout( async() => {
 
-          await askForClosedJobByText(channel, result.id, result.content , openai)
+          await askForClosedJobByText(channel, result.id, result.content, result.url , openai)
         // }, 2000);
         setTimeout(() => {
           channel.ack(msg);
