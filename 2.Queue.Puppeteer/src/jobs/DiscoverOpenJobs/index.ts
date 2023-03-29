@@ -19,8 +19,8 @@ export default async function (channel: amqp.Channel) {
     
     await page.goto('https://www.linkedin.com/login'); 
     // Preenche o formulário de login 
-    await page.type('#username', 'claydson21@hotmail.com'); 
-    await page.type('#password', 'W13j2499!'); 
+    await page.type('#username', 'login'); 
+    await page.type('#password', 'senha123'); 
     await page.click('.btn__primary--large'); 
     // Espera a página de feed carregar e vai para a página de empregos 
     await page.waitForSelector('.scaffold-layout__sidebar');
