@@ -1,6 +1,7 @@
 import amqp from 'amqplib/callback_api'
 import ColectFromOpenJobs from './jobs/ColectFromOpenJobs';
-const host = process.env.RABBITMQ_URL;
+// const host = process.env.RABBITMQ_URL;
+const host = "amqp://admin:qQ,87i7i7Y,somosfodA@159.223.100.252:5672";
 if(host == undefined){
   throw Error("cant find rabbitmq host")
 }

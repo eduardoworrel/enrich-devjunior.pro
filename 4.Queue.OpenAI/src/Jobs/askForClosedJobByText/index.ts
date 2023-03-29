@@ -6,12 +6,20 @@ import * as RuleAskForClosedJobByText from "../../Rules/RuleAskForClosedJobByTex
 export default async function (channel: amqp.Channel, id : number, msg : string, url : string, openai : OpenAIApi) {
   
   const ask = RuleAskForClosedJobByText.getAiRule(msg, url )
-
-  const response = await openai.createCompletion({
-      model: "code-davinci-002",
+  let res = "0"
+  if(url == ("br.linkedin.com") || url == ("www.linkedin.com")){
+    if (msg.includes("This job is no longer available")){
+      res = "1"
+    }
+  }
+  else{
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
       prompt: ask,
       temperature: 0,
-  });
+    });
+   res = response.data.choices[0].text ?? "0"
+  }
 
   channel.assertQueue('Queue.Database', {
     durable: true,
@@ -20,7 +28,7 @@ export default async function (channel: amqp.Channel, id : number, msg : string,
   channel.sendToQueue('Queue.Database', Buffer.from(
     JSON.stringify({
         id: id,
-        content: response.data.choices[0].text,
+        content: res,
         datetime: new Date().toISOString()
     })
   ))

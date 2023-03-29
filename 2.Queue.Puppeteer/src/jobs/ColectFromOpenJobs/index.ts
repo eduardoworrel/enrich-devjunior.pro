@@ -5,8 +5,8 @@ import axios from 'axios';
 
 export default async function (channel: amqp.Channel) {
 
-    const res : any = await axios.get('https://api.devjunior.pro/api/Vaga/GetVagas');
-    const jobs = res.data
+    // const res : any = await axios.get('https://api.devjunior.pro/api/Vaga/GetVagas');
+    // const jobs = res.data
     const actives = [
         {id:1,url:'https://www.linkedin.com/jobs/view/3053449268/?refId=2a8473a8-6f56-4c4e-abb9-221ade2a2b1e'},
         {id:2,url:'https://www.linkedin.com/jobs/view/3151220688/?refId=0695a877-f702-4dad-860d-dc331e133750'},
@@ -18,8 +18,8 @@ export default async function (channel: amqp.Channel) {
     // //access urls with puppeteer
 
     const browser = await puppeteer.launch({
-        executablePath: '/usr/bin/google-chrome',
-        args: ['--no-sandbox']
+        // executablePath: '/usr/bin/google-chrome',
+        args: ['--no-sandbox'],
     });
     const page = await browser.newPage();
     channel.assertQueue('Queue.GenericWorker', {
