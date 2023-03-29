@@ -15,10 +15,17 @@ amqp.connect(host, function(error0, connection) {
     }
 
      //cron.schedule("10 * * * *", async () => {
-      channel.assertQueue('Queue.Puppeteer', {
+      // channel.assertQueue('Queue.Puppeteer', {
+      //   durable: true,
+      // });
+      // channel.sendToQueue('Queue.Puppeteer', Buffer.from(
+      //   ""
+      // ))
+
+      channel.assertQueue('Queue.Puppeteer.Explorer', {
         durable: true,
       });
-      channel.sendToQueue('Queue.Puppeteer', Buffer.from(
+      channel.sendToQueue('Queue.Puppeteer.Explorer', Buffer.from(
         ""
       ))
   //  });

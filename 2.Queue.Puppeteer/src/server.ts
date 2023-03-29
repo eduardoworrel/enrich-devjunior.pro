@@ -1,5 +1,6 @@
 import amqp from 'amqplib/callback_api'
 import ColectFromOpenJobs from './jobs/ColectFromOpenJobs';
+import DiscoverOpenJobs from './jobs/DiscoverOpenJobs';
 // const host = process.env.RABBITMQ_URL;
 const host = "amqp://admin:qQ,87i7i7Y,somosfodA@159.223.100.252:5672";
 if(host == undefined){
@@ -16,10 +17,22 @@ amqp.connect(host, function(error0, connection) {
     channel.assertQueue('Queue.Puppeteer', {
       durable: true,
     });
+    
+    channel.assertQueue('Queue.Puppeteer.Explorer', {
+      durable: true,
+    });
 
     channel.consume('Queue.Puppeteer',async function(msg) {
       if(msg?.content) {
         await ColectFromOpenJobs(channel)
+      }
+    }, {
+      noAck: true
+    });
+
+    channel.consume('Queue.Puppeteer.Explorer',async function(msg) {
+      if(msg?.content) {
+        await DiscoverOpenJobs(channel)
       }
     }, {
       noAck: true
